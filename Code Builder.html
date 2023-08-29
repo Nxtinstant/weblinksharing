@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Builder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #code-input {
+            width: 80%;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Code Builder</h1>
+    <textarea id="code-input" placeholder="Enter your code here"></textarea>
+    <br>
+    <button id="generate-link">Generate Code Link</button>
+    <br>
+    <p id="code-link"></p>
+
+    <script>
+        document.getElementById("generate-link").addEventListener("click", function() {
+            const code = document.getElementById("code-input").value;
+            const encodedCode = encodeURIComponent(code);
+            const link = window.location.href.split('?')[0] + '?code=' + encodedCode;
+            const codeLinkElement = document.getElementById("code-link");
+
+            if (code.trim() === "") {
+                codeLinkElement.textContent = "Please enter code before generating a link.";
+                return;
+            }
+
+            codeLinkElement.innerHTML = `Generated Code Link: <a href="${link}" target="_blank">${link}</a>`;
+        });
+
+        // Check if there's a 'code' parameter in the URL and populate the code input
+        const urlParams = new URLSearchParams(window.location.search);
+        const codeParam = urlParams.get('code');
+        if (codeParam) {
+            const decodedCode = decodeURIComponent(codeParam);
+            document.getElementById("code-input").value = decodedCode;
+        }
+    </script>
+</body>
+</html>
